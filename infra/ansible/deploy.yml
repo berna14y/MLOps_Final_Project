@@ -1,0 +1,61 @@
+- name: Deploy ML model API to EC2
+  hosts: mlops
+  become: true
+
+  vars:
+    app_dir: /home/ubuntu/app
+    docker_image_name: bank-mlops-api
+    docker_container_name: bank-mlops-api
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - docker.io
+          - python3-pip
+          - rsync
+        update_cache: yes
+        state: present
+
+    - name: Add user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+    - name: Enable and start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Create app directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Copy project files to EC2 instance
+      synchronize:
+        src: "{{ lookup('env', 'HOME') }}/Desktop/MLOps_project/"
+        dest: "{{ app_dir }}/"
+        recursive: yes
+        rsync_opts:
+          - "--exclude=.git"
+          - "--exclude=__pycache__"
+          - "--exclude=*.ipynb"
+
+    - name: Build Docker image from project root using Dockerfile in docker/
+      command: docker build -t {{ docker_image_name }} -f docker/Dockerfile .
+      args:
+        chdir: "{{ app_dir }}"
+
+    - name: Stop and remove existing container if running
+      shell: |
+        docker ps -q --filter "name={{ docker_container_name }}" | grep -q . && \
+        docker rm -f {{ docker_container_name }} || true
+
+    - name: Run Docker container
+      command: docker run -d -p 8000:8000 --name {{ docker_container_name }} {{ docker_image_name }}
