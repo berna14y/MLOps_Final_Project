@@ -1,14 +1,24 @@
-## 🏆 MLOps Project: Bank Marketing Prediction API
-
-### 📌 Problem Statement
-
-Financial institutions often run marketing campaigns to promote term deposit products. The goal of this project is to **predict whether a customer will subscribe** to a term deposit using historical campaign data.
-
-This project demonstrates an end-to-end MLOps workflow by building a machine learning pipeline, deploying it via **FastAPI**, **containerizing with Docker**, and provisioning infrastructure using **Terraform** and **Ansible** on **AWS EC2**.
+# 🏆 MLOps Project: Bank Marketing Prediction API
 
 ---
 
-### 📊 Dataset
+## 📢 About
+
+This project was completed as part of the **Veri Bilimi Okulu MLOps Bootcamp**.  
+It showcases the end-to-end implementation of a machine learning pipeline, deployment with FastAPI, Docker containerization, and infrastructure automation using Terraform and Ansible on AWS.
+
+---
+
+## 📌 Problem Statement
+
+Financial institutions often run marketing campaigns to promote term deposit products.  
+The goal of this project is to **predict whether a customer will subscribe** to a term deposit using historical campaign data.
+
+This project demonstrates an end-to-end MLOps workflow by building a machine learning pipeline, deploying it via **FastAPI**, containerizing with **Docker**, and provisioning infrastructure using **Terraform** and **Ansible** on **AWS EC2**.
+
+---
+
+## 📊 Dataset
 
 - **Source:** UCI Machine Learning Repository – Bank Marketing Dataset  
 - **File:** `bank-additional-full.csv`  
@@ -18,19 +28,19 @@ This project demonstrates an end-to-end MLOps workflow by building a machine lea
 
 ---
 
-### ⚙️ Model Pipeline
+## ⚙️ Model Pipeline
 
-#### 🔧 Preprocessing
+### 🔧 Preprocessing
 - Label encoding for categorical variables
 
-#### 🧠 Feature Engineering
+### 🧠 Feature Engineering
 - `contacted_before`: derived from `pdays`
 - `age_group`: bucketized from `age`
 - Removed multicollinearity (via correlation matrix + VIF)
 - Feature selection prior to scaling
 - Scaling with `RobustScaler`
 
-#### 🧮 Modeling
+### 🧮 Modeling
 - **VotingClassifier** ensemble with:
   - `XGBoostClassifier` (`use_label_encoder=False`, `eval_metric='logloss'`)
   - `CatBoostClassifier` (silent mode)
@@ -38,51 +48,60 @@ This project demonstrates an end-to-end MLOps workflow by building a machine lea
 - Evaluated using Stratified 5-Fold Cross-Validation
 - Best model saved as `voting_model.pkl`
 
-#### 🔢 Features Used
+### 🔢 Features Used
 
 ```python
 ['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month',
  'day_of_week', 'campaign', 'pdays', 'previous', 'poutcome', 'cons.conf.idx',
  'nr.employed', 'age_group']
+```
 
 ---
 
-### 🧪 Running Locally
+## 🧪 Running Locally
 
-  1. Build Docker Image
-    ```bash
-    docker build -t mlops-fastapi -f docker/Dockerfile .
+### 1. Build Docker Image
+```bash
+docker build -t mlops-fastapi -f docker/Dockerfile .
+```
 
-  2. Run the API Container
-    ```bash
-    docker run -p 8000:8000 mlops-fastapi
+### 2. Run the API Container
+```bash
+docker run -p 8000:8000 mlops-fastapi
+```
 
-  3. Test Prediction
-    ```bash
-    curl -X POST http://localhost:8000/predict \
-    -H "Content-Type: application/json" \
-    -d @api/test_payload.txt
+### 3. Test Prediction
+```bash
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d @api/test_payload.txt
+```
 
-  Or open http://localhost:8000/docs for Swagger UI.
-
----
-
-### ☁️ Deploy to AWS EC2
-
-1. Provision EC2 Instance with Terraform
-    ```bash
-    cd infra/terraform
-    terraform init
-    terraform apply
-
-2. Deploy App with Ansible
-    ```bash
-    cd ../ansible
-    ansible-playbook -i inventory playbook.yml
+### 4. Open Swagger UI
+Open your browser and navigate to: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
-📨 Example Request Payload
+## ☁️ Deploy to AWS EC2
+
+### 1. Provision EC2 Instance with Terraform
+```bash
+cd infra/terraform
+terraform init
+terraform apply
+```
+
+### 2. Deploy App with Ansible
+```bash
+cd ../ansible
+ansible-playbook -i inventory playbook.yml
+```
+
+---
+
+## 📨 Example Request Payload
+
+```json
 {
   "job": "technician",
   "marital": "single",
@@ -101,23 +120,23 @@ This project demonstrates an end-to-end MLOps workflow by building a machine lea
   "nr_employed": 5191.0,
   "age_group": "25-35"
 }
+```
 
 ---
 
-### 🔍 Drift Detection (Future Scope)
+## 🔍 Drift Detection (Future Scope)
 
 Although drift detection is not implemented in this version, the project is structured for easy integration of drift detection techniques, such as:
 
-Statistical monitoring of feature distribution (e.g., with EvidentlyAI)
-
-Performance monitoring via accuracy/AUC tracking
-
-Triggering retraining when significant drift is detected
+- Statistical monitoring of feature distribution (e.g., using EvidentlyAI)
+- Performance monitoring via accuracy/AUC tracking
+- Triggering retraining when significant drift is detected
 
 ---
 
-#### Directory Structure
+## 📁 Directory Structure
 
+```plaintext
 MLOPS_PROJECT/
 ├── api/              # FastAPI implementation
 │   ├── api_main.py
@@ -137,17 +156,21 @@ MLOPS_PROJECT/
 │   ├── bank-additional-full.csv
 │   └── saved_models/
 ├── requirements.txt  # Dependencies
+```
 
 ---
 
-#### Maintainer
+## 👩‍💻 Maintainer
 
-Project by: Berna YILMAZ
+Project by: **Berna Yılmaz**  
+📧 berna14y@gmail.com
 
-Contact: berna14y@gmail.com
+---
 
-### ✅ Summary
+## ✅ Summary
 
-This project demonstrates a complete MLOps lifecycle: from preprocessing and modeling to containerized deployment on AWS infrastructure. It provides a fast, stateless prediction service and is extensible for further automation, CI/CD, and monitoring.
+This project demonstrates a complete MLOps lifecycle:  
+From preprocessing and modeling to containerized deployment on AWS infrastructure.  
+It provides a fast, stateless prediction service and is extensible for further automation, CI/CD, and monitoring.
 
 ---
