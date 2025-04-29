@@ -1,0 +1,18 @@
+{
+  "job": "technician",
+  "marital": "married",
+  "education": "university.degree",
+  "default": "no",
+  "housing": "yes",
+  "loan": "no",
+  "contact": "cellular",
+  "month": "may",
+  "day_of_week": "thu",
+  "campaign": 2,
+  "pdays": 999,
+  "previous": 0,
+  "poutcome": "nonexistent",
+  "cons_conf_idx": -36.4,
+  "nr_employed": 5099.1,
+  "age_group": "45-55"
+}
