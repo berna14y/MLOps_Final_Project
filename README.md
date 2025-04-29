@@ -47,25 +47,25 @@ This project demonstrates an end-to-end MLOps workflow by building a machine lea
 
 ---
 
-### 🧪 **Running Locally**
+### 🧪 Running Locally
 
-1. Build Docker Image
+  1. Build Docker Image
     docker build -t mlops-fastapi -f docker/Dockerfile .
 
-2. Run the API Container
+  2. Run the API Container
     docker run -p 8000:8000 mlops-fastapi
 
-3. Test Prediction
+  3. Test Prediction
 
     curl -X POST http://localhost:8000/predict \
     -H "Content-Type: application/json" \
     -d @api/test_payload.txt
 
-Or open http://localhost:8000/docs for Swagger UI.
+  Or open http://localhost:8000/docs for Swagger UI.
 
 ---
 
-#### ☁️ Deploy to AWS EC2
+### ☁️ Deploy to AWS EC2
 
 1. Provision EC2 Instance with Terraform
     cd infra/terraform
@@ -100,7 +100,7 @@ Or open http://localhost:8000/docs for Swagger UI.
 
 ---
 
-#### 🔍 Drift Detection (Future Scope)
+### 🔍 Drift Detection (Future Scope)
 
 Although drift detection is not implemented in this version, the project is structured for easy integration of drift detection techniques, such as:
 
@@ -139,6 +139,6 @@ Project by: Berna YILMAZ
 
 Contact: berna14y@gmail.com
 
-#### ✅ Summary
+### ✅ Summary
 
 This project demonstrates a complete MLOps lifecycle: from preprocessing and modeling to containerized deployment on AWS infrastructure. It provides a fast, stateless prediction service and is extensible for further automation, CI/CD, and monitoring.
