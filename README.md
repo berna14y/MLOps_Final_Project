@@ -46,7 +46,8 @@ This project demonstrates an end-to-end MLOps workflow by building a machine lea
  'nr.employed', 'age_group']
 
 ---
-#### 🧪 Running Locally
+
+### 🧪 **Running Locally**
 
 1. Build Docker Image
     docker build -t mlops-fastapi -f docker/Dockerfile .
