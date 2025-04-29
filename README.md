@@ -1,61 +1,52 @@
-## MLOps Project: Bank Marketing Prediction API
+## 🏆 MLOps Project: Bank Marketing Prediction API
 
-#### Problem Statement
+### 📌 Problem Statement
 
-Financial institutions run marketing campaigns to offer term deposits to customers. The objective of this project is to predict whether a customer will subscribe to a term deposit based on historical campaign data.
+Financial institutions often run marketing campaigns to promote term deposit products. The goal of this project is to **predict whether a customer will subscribe** to a term deposit using historical campaign data.
 
-This project builds and deploys a machine learning pipeline as a FastAPI application. It is containerized using Docker and deployed to AWS EC2 using Terraform and Ansible.
+This project demonstrates an end-to-end MLOps workflow by building a machine learning pipeline, deploying it via **FastAPI**, **containerizing with Docker**, and provisioning infrastructure using **Terraform** and **Ansible** on **AWS EC2**.
 
-####  Dataset
+---
 
-Source: UCI Machine Learning Repository – Bank Marketing Dataset
+### 📊 Dataset
 
-File: bank-additional-full.csv
+- **Source:** UCI Machine Learning Repository – Bank Marketing Dataset  
+- **File:** `bank-additional-full.csv`  
+- **Samples:** 41,188  
+- **Features:** 21  
+- **Target:** `y` – whether the client subscribed to a term deposit (`yes` / `no`)
 
-Samples: 41,188
+---
 
-Features: 21
+### ⚙️ Model Pipeline
 
-Target: y – whether the client subscribed to a term deposit (yes/no)
+#### 🔧 Preprocessing
+- Label encoding for categorical variables
 
-#### Model Pipeline
+#### 🧠 Feature Engineering
+- `contacted_before`: derived from `pdays`
+- `age_group`: bucketized from `age`
+- Removed multicollinearity (via correlation matrix + VIF)
+- Feature selection prior to scaling
+- Scaling with `RobustScaler`
 
-###### Preprocessing:
+#### 🧮 Modeling
+- **VotingClassifier** ensemble with:
+  - `XGBoostClassifier` (`use_label_encoder=False`, `eval_metric='logloss'`)
+  - `CatBoostClassifier` (silent mode)
+  - `RandomForestClassifier` (`n_estimators=100`)
+- Evaluated using Stratified 5-Fold Cross-Validation
+- Best model saved as `voting_model.pkl`
 
-Label Encoding of categorical variables
+#### 🔢 Features Used
 
-###### Feature engineering:
-
-contacted_before derived from pdays
-
-age_group bucketized from age
-
-Multicollinearity removal via correlation & VIF
-
-Feature selection before scaling
-
-Scaling using RobustScaler
-
-###### Modeling:
-
-VotingClassifier with:
-
-XGBoost (use_label_encoder=False, eval_metric='logloss')
-
-CatBoostClassifier (silent mode)
-
-RandomForestClassifier (100 estimators)
-
-Evaluation via Stratified 5-Fold CV
-
-Final model saved as voting_model.pkl
-
-Features Used:
+```python
 ['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month',
  'day_of_week', 'campaign', 'pdays', 'previous', 'poutcome', 'cons.conf.idx',
  'nr.employed', 'age_group']
 
-#### Running Locally
+
+#### 🧪 Running Locally
 
 1. Build Docker Image
     docker build -t mlops-fastapi -f docker/Dockerfile .
@@ -71,7 +62,7 @@ Features Used:
 
 Or open http://localhost:8000/docs for Swagger UI.
 
-#### Deploy to AWS EC2
+#### ☁️ Deploy to AWS EC2
 
 1. Provision EC2 Instance with Terraform
     cd infra/terraform
@@ -83,7 +74,7 @@ Or open http://localhost:8000/docs for Swagger UI.
     ansible-playbook -i inventory playbook.yml
 
 
-Example Request Payload
+📨 Example Request Payload
 {
   "job": "technician",
   "marital": "single",
@@ -103,7 +94,7 @@ Example Request Payload
   "age_group": "25-35"
 }
 
-#### Drift Detection (Future Scope)
+#### 🔍 Drift Detection (Future Scope)
 
 Although drift detection is not implemented in this version, the project is structured for easy integration of drift detection techniques, such as:
 
@@ -142,6 +133,6 @@ Project by: Berna YILMAZ
 
 Contact: berna14y@gmail.com
 
-#### Summary
+#### ✅ Summary
 
 This project demonstrates a complete MLOps lifecycle: from preprocessing and modeling to containerized deployment on AWS infrastructure. It provides a fast, stateless prediction service and is extensible for further automation, CI/CD, and monitoring.
