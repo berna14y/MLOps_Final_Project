@@ -45,7 +45,7 @@ This project demonstrates an end-to-end MLOps workflow by building a machine lea
  'day_of_week', 'campaign', 'pdays', 'previous', 'poutcome', 'cons.conf.idx',
  'nr.employed', 'age_group']
 
-
+---
 #### 🧪 Running Locally
 
 1. Build Docker Image
@@ -62,6 +62,8 @@ This project demonstrates an end-to-end MLOps workflow by building a machine lea
 
 Or open http://localhost:8000/docs for Swagger UI.
 
+---
+
 #### ☁️ Deploy to AWS EC2
 
 1. Provision EC2 Instance with Terraform
@@ -73,6 +75,7 @@ Or open http://localhost:8000/docs for Swagger UI.
     cd ../ansible
     ansible-playbook -i inventory playbook.yml
 
+---
 
 📨 Example Request Payload
 {
@@ -93,6 +96,8 @@ Or open http://localhost:8000/docs for Swagger UI.
   "nr_employed": 5191.0,
   "age_group": "25-35"
 }
+
+---
 
 #### 🔍 Drift Detection (Future Scope)
 
