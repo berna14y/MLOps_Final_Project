@@ -50,13 +50,15 @@ This project demonstrates an end-to-end MLOps workflow by building a machine lea
 ### 🧪 Running Locally
 
   1. Build Docker Image
+    ```bash
     docker build -t mlops-fastapi -f docker/Dockerfile .
 
   2. Run the API Container
+    ```bash
     docker run -p 8000:8000 mlops-fastapi
 
   3. Test Prediction
-
+    ```bash
     curl -X POST http://localhost:8000/predict \
     -H "Content-Type: application/json" \
     -d @api/test_payload.txt
@@ -68,11 +70,13 @@ This project demonstrates an end-to-end MLOps workflow by building a machine lea
 ### ☁️ Deploy to AWS EC2
 
 1. Provision EC2 Instance with Terraform
+    ```bash
     cd infra/terraform
     terraform init
     terraform apply
 
 2. Deploy App with Ansible
+    ```bash
     cd ../ansible
     ansible-playbook -i inventory playbook.yml
 
@@ -110,6 +114,8 @@ Performance monitoring via accuracy/AUC tracking
 
 Triggering retraining when significant drift is detected
 
+---
+
 #### Directory Structure
 
 MLOPS_PROJECT/
@@ -132,6 +138,7 @@ MLOPS_PROJECT/
 │   └── saved_models/
 ├── requirements.txt  # Dependencies
 
+---
 
 #### Maintainer
 
@@ -142,3 +149,5 @@ Contact: berna14y@gmail.com
 ### ✅ Summary
 
 This project demonstrates a complete MLOps lifecycle: from preprocessing and modeling to containerized deployment on AWS infrastructure. It provides a fast, stateless prediction service and is extensible for further automation, CI/CD, and monitoring.
+
+---
